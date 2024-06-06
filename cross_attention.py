@@ -4,6 +4,7 @@ import torch
 import torchvision
 import torchvision.transforms.functional as F
 from torchvision.transforms import InterpolationMode, Resize 
+import torch.nn.functional as tnf
 import xformers
 TOKENSCON = 77
 TOKENS = 75
@@ -14,7 +15,8 @@ def _memory_efficient_attention_xformers(module, query, key, value):
     query = query.contiguous()
     key = key.contiguous()
     value = value.contiguous()
-    hidden_states = xformers.ops.memory_efficient_attention(query, key, value,attn_bias=None)
+    hidden_states = tnf.scaled_dot_product_attention(query, key, value, attn_mask=None)
+    #hidden_states = xformers.ops.memory_efficient_attention(query, key, value,attn_bias=None)
     hidden_states = module.batch_to_head_dim(hidden_states)
     return hidden_states
 
