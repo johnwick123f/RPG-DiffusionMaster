@@ -5,7 +5,6 @@ import torchvision
 import torchvision.transforms.functional as F
 from torchvision.transforms import InterpolationMode, Resize 
 import torch.nn.functional as tnf
-import xformers
 TOKENSCON = 77
 TOKENS = 75
 
